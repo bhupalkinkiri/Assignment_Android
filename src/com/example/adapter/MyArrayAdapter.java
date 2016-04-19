@@ -2,21 +2,18 @@ package com.example.adapter;
 
 import java.util.ArrayList;
 
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.example.app.AppController;
 import com.example.assignment.R;
-import com.example.impl.ImageDownloaderAsyncTask;
-import com.example.model.ImageModel;
+//import com.example.model.ImageModel;
 import com.example.model.NEWSModel;
-import com.example.util.ImageCaching;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -27,15 +24,13 @@ public class MyArrayAdapter extends ArrayAdapter<NEWSModel> {
 
 	private final Activity context;
 	private ArrayList<NEWSModel> list;
-	ImageCaching mCachingObj;
-	// private HashSet<String> mImageRefSet ;
-
+	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 	public MyArrayAdapter(Activity context, ArrayList<NEWSModel> list) {
 		super(context, R.layout.list_item, list);
 		this.context = context;
 		this.list = list;
 		// creating an object for memory caching
-		mCachingObj = new ImageCaching();
+		//mCachingObj = new ImageCaching();
 	}
 
 	public void updateTheList(ArrayList<NEWSModel> list) {
@@ -56,8 +51,8 @@ public class MyArrayAdapter extends ArrayAdapter<NEWSModel> {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.image = (ImageView) convertView.findViewById(R.id.imageView);
-		viewHolder.progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
+		viewHolder.image = (NetworkImageView) convertView.findViewById(R.id.imageView);
+		//viewHolder.progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
 		viewHolder.title = (TextView) convertView.findViewById(R.id.title);
 		viewHolder.description = (TextView) convertView.findViewById(R.id.description);
 
@@ -66,18 +61,21 @@ public class MyArrayAdapter extends ArrayAdapter<NEWSModel> {
 		viewHolder.description.setText(list.get(position).getDescription());
 
 		viewHolder.image.setTag(list.get(position).getImageURLRef());
-		ImageModel imgModel = new ImageModel();
-		imgModel.setImageView(viewHolder.image);
-		imgModel.setProgressBar(viewHolder.progressBar);
-
+		//ImageModel imgModel = new ImageModel();
+		//imgModel.setImageView(viewHolder.image);
+		//imgModel.setProgressBar(viewHolder.progressBar);
+		// thumbNail.setImageUrl(m.getThumbnailUrl(), imageLoader);
+		 
+		 viewHolder.image.setImageUrl(list.get(position).getImageURLRef(), imageLoader);
+		 
 		// check for imageURL and fetch from server
-		if (list.get(position).getImageURLRef() != null && !list.get(position).getImageURLRef().equals("")) {
+		/*if (list.get(position).getImageURLRef() != null && !list.get(position).getImageURLRef().equals("")) {
 			imageLoadingAndCaching(viewHolder.image.getContext(), imgModel);
 		} else {
 			// image URL is not valid
 			viewHolder.image.setVisibility(View.GONE);
-			viewHolder.progressBar.setVisibility(View.GONE);
-		}
+			//viewHolder.progressBar.setVisibility(View.GONE);
+		}*/
 
 		return convertView;
 	}
@@ -89,7 +87,7 @@ public class MyArrayAdapter extends ArrayAdapter<NEWSModel> {
 	 * @param mcontext
 	 * @param imgModel
 	 */
-	private void imageLoadingAndCaching(Context mcontext, ImageModel imgModel) {
+/*	private void imageLoadingAndCaching(Context mcontext, ImageModel imgModel) {
 
 		final String imageKey = (String) imgModel.getImageView().getTag();
 		final Bitmap bitmap = mCachingObj.getBitmapFromMemCache(imageKey);
@@ -101,11 +99,10 @@ public class MyArrayAdapter extends ArrayAdapter<NEWSModel> {
 			new ImageDownloaderAsyncTask(mcontext, mCachingObj).execute(imgModel);
 		}
 	}
-
+*/
 	class ViewHolder {
 		protected TextView title;
 		protected TextView description;
-		protected ImageView image;
-		protected ProgressBar progressBar;
+		protected NetworkImageView image;
 	}
 }

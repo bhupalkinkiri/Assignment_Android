@@ -34,18 +34,11 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true" >
 
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"/>
-
-                <ImageView
+                <com.android.volley.toolbox.NetworkImageView
                     android:id="@+id/imageView"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:layout_margin="2dp"
-                    android:visibility="gone"/>
+                    android:layout_margin="2dp"/>
             </RelativeLayout>
 
             <TextView

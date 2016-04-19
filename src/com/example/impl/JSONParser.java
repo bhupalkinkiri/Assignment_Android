@@ -22,11 +22,9 @@ public class JSONParser {
 	private static final String TAG_DESCRIPTION = "description";
 	private static final String TAG_IMG_URL = "imageHref";
 
-	public static NEWSFeedModel parseJSONResponse(String response) {
+	public static NEWSFeedModel parseJSONResponse(JSONObject jsonObject) {
 		NEWSFeedModel newsFeedModel = new NEWSFeedModel();
 		try {
-
-			JSONObject jsonObject = new JSONObject(response);
 			String list_title = jsonObject.getString(TAG_LIST_TITLE);
 			newsFeedModel.setTitle(list_title);
 			JSONArray newsItemsJSON = jsonObject.getJSONArray(TAG_ARRAY);
@@ -62,7 +60,7 @@ public class JSONParser {
 				}
 
 			}
-			Log.d("Response", "Response :: " + parsedResponse);
+			Log.d("Response", "Parsed Response :: " + parsedResponse);
 			newsFeedModel.setRows(rows);
 		} catch (JSONException e) {
 			e.printStackTrace();

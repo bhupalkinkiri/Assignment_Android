@@ -8,7 +8,14 @@ public class NEWSFeedModel {
 
     private String title;
     private ArrayList<NEWSModel> rows = new ArrayList<NEWSModel>();
-
+    public NEWSFeedModel(){
+    	
+    }
+    public NEWSFeedModel(String title,ArrayList<NEWSModel> rows){
+    	this.title = title;
+    	this.rows = rows;
+    }
+    
     /**
      * 
      * @return

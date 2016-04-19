@@ -1,24 +1,45 @@
 package com.example;
 
-import com.example.assignment.R;
-import com.example.impl.NEWSFeedAsyncTask;
+import java.util.ArrayList;
 
-import android.app.ActionBar;
+import org.json.JSONObject;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.adapter.MyArrayAdapter;
+import com.example.app.AppController;
+import com.example.assignment.R;
+import com.example.impl.JSONParser;
+import com.example.model.NEWSFeedModel;
+import com.example.model.NEWSModel;
+
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * @author Bhupal_Kinkiri
- * This is the Activity
+ * This is the Mian Activity
  */
 public class MainActivity extends Activity {
-
+	// Log tag
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String url = "https://dl.dropboxusercontent.com/u/746330/facts.json";
+    private ProgressDialog progressDialog;
+    private ArrayList<NEWSModel> newsModel = new ArrayList<NEWSModel>();
+    private NEWSFeedModel newsFeedModel;// = new NEWSFeedModel();
+    private ListView listView;
+    private MyArrayAdapter adapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -27,11 +48,45 @@ public class MainActivity extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}	
-		ActionBar actionbar = getActionBar();
-		//making a server call to fetch the response
-		NEWSFeedAsyncTask newsFeedrunner  = new NEWSFeedAsyncTask(MainActivity.this,actionbar);
-		newsFeedrunner.execute();
 		
+				//creating an adapter to populate the values in the List
+				adapter = new MyArrayAdapter(this,newsModel); //intiating Adapter with null list
+				ListView listView = (ListView)findViewById(R.id.listView);
+				listView.setAdapter(adapter);
+		
+				progressDialog = new ProgressDialog(this);
+		        // Showing progress dialog before making http request
+				progressDialog.setMessage("Loading...");
+				progressDialog.show();
+		
+				
+				//creating volley requesting object
+				JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+				    @Override
+				    public void onResponse(JSONObject response) {
+				    	//TODO needs to use GSon 
+				    	newsFeedModel = JSONParser.parseJSONResponse(response);
+				    	adapter.updateTheList(newsFeedModel.getRows());
+				    	adapter.notifyDataSetChanged();
+				    	if(progressDialog.isShowing())
+				    		progressDialog.dismiss();
+				    }
+				}, new Response.ErrorListener() {
+
+				    @Override
+				    public void onErrorResponse(VolleyError error) {
+				    	if(progressDialog.isShowing())
+				    		progressDialog.dismiss();
+				    	 Toast.makeText(MainActivity.this, "Unable to fetch the response", Toast.LENGTH_LONG).show();
+				    }
+				});
+						 
+		
+		//making a server call to fetch the response
+		//NEWSFeedAsyncTask newsFeedrunner  = new NEWSFeedAsyncTask(MainActivity.this,actionbar);
+		//newsFeedrunner.execute();
+		AppController.getInstance().addToRequestQueue(request);
 		
 	}
 

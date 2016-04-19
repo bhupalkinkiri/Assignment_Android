@@ -7,6 +7,12 @@ public class NEWSModel {
     private String description;
     private String imageHref;
 
+    public NEWSModel(){}
+    public NEWSModel(String title,String description,String imageHref){
+    	this.title = title;
+    	this.description = description;
+    	this.imageHref = imageHref;
+    }
     /**
      * 
      * @return
@@ -48,7 +54,7 @@ public class NEWSModel {
      * @return
      *     The imageHref
      */
-    public Object getImageURLRef() {
+    public String getImageURLRef() {
         return imageHref;
     }
 
@@ -62,7 +68,7 @@ public class NEWSModel {
     }
     
     public String getString(){
-    	return title+" , "+description+" , " +imageHref;
+    	return title+" , "+description+" , " +imageHref+"\n\n";
     }
 
 }
