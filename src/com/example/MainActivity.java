@@ -30,7 +30,6 @@ public class MainActivity extends Activity {
 	private static final String url = "https://dl.dropboxusercontent.com/u/746330/facts.json";
 	private ProgressDialog progressDialog;
 	private ArrayList<NEWSModel> newsModel = new ArrayList<NEWSModel>();
-	private NEWSFeedModel newsFeedModel = null;
 	private MyArrayAdapter adapter;
 
 	@Override
@@ -47,6 +46,7 @@ public class MainActivity extends Activity {
 		progressDialog = new ProgressDialog(this);
 		// Showing progress dialog before making the request
 		progressDialog.setMessage(getString(R.string.loading));
+		progressDialog.setCancelable(false);
 		progressDialog.show();
 
 		// creating volley requesting object
@@ -55,9 +55,10 @@ public class MainActivity extends Activity {
 
 					@Override
 					public void onResponse(JSONObject response) {
-						newsFeedModel = JSONParser.parseJSONResponse(response);
+						NEWSFeedModel newsFeedModel = JSONParser.parseJSONResponse(response);
 						if (progressDialog.isShowing())
 							progressDialog.dismiss();
+						
 						// updating the list with parsed results
 						adapter.updateTheList(newsFeedModel.getRows());
 						adapter.notifyDataSetChanged();
@@ -75,8 +76,7 @@ public class MainActivity extends Activity {
 					}
 				});
 		// adding the request to queue
-		AppController.getInstance().addToRequestQueue(request, TAG);
-
+		AppController.getInstance().addToRequestQueue(request, TAG);	
 	}
 
 	@Override
