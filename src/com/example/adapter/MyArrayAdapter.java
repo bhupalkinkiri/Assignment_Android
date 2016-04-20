@@ -6,7 +6,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.example.app.AppController;
 import com.example.assignment.R;
-//import com.example.model.ImageModel;
 import com.example.model.NEWSModel;
 
 import android.app.Activity;
@@ -58,7 +57,7 @@ public class MyArrayAdapter extends ArrayAdapter<NEWSModel> {
 		viewHolder.title.setText(list.get(position).getTitle());
 		viewHolder.description.setText(list.get(position).getDescription());
 		viewHolder.image.setImageUrl(list.get(position).getImageURLRef(), imageLoader);
-
+		
 		return convertView;
 	}
 
