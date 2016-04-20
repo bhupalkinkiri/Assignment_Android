@@ -7,6 +7,10 @@ import android.graphics.Bitmap;
 import android.util.LruCache;
 
  
+/**
+ * @author Bhupal_Kinkiri
+ * LruBitmapCache class which has the Bitmap cache implementation using LruCache 
+ */
 public class LruBitmapCache extends LruCache<String, Bitmap> implements
         ImageCache {
     public static int getDefaultLruCacheSize() {

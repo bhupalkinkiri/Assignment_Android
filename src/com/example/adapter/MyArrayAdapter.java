@@ -17,7 +17,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 /**
- * @author Bhupal_Kinkiri Adapter class which will be used to render the list
+ * @author Bhupal_Kinkiri 
+ * Adapter class which will be used to render the list
  *         items
  */
 public class MyArrayAdapter extends ArrayAdapter<NEWSModel> {
@@ -25,12 +26,11 @@ public class MyArrayAdapter extends ArrayAdapter<NEWSModel> {
 	private final Activity context;
 	private ArrayList<NEWSModel> list;
 	ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+
 	public MyArrayAdapter(Activity context, ArrayList<NEWSModel> list) {
 		super(context, R.layout.list_item, list);
 		this.context = context;
 		this.list = list;
-		// creating an object for memory caching
-		//mCachingObj = new ImageCaching();
 	}
 
 	public void updateTheList(ArrayList<NEWSModel> list) {
@@ -52,54 +52,21 @@ public class MyArrayAdapter extends ArrayAdapter<NEWSModel> {
 		}
 
 		viewHolder.image = (NetworkImageView) convertView.findViewById(R.id.imageView);
-		//viewHolder.progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
 		viewHolder.title = (TextView) convertView.findViewById(R.id.title);
 		viewHolder.description = (TextView) convertView.findViewById(R.id.description);
-
 		// setting the data to View
 		viewHolder.title.setText(list.get(position).getTitle());
 		viewHolder.description.setText(list.get(position).getDescription());
-
-		viewHolder.image.setTag(list.get(position).getImageURLRef());
-		//ImageModel imgModel = new ImageModel();
-		//imgModel.setImageView(viewHolder.image);
-		//imgModel.setProgressBar(viewHolder.progressBar);
-		// thumbNail.setImageUrl(m.getThumbnailUrl(), imageLoader);
-		 
-		 viewHolder.image.setImageUrl(list.get(position).getImageURLRef(), imageLoader);
-		 
-		// check for imageURL and fetch from server
-		/*if (list.get(position).getImageURLRef() != null && !list.get(position).getImageURLRef().equals("")) {
-			imageLoadingAndCaching(viewHolder.image.getContext(), imgModel);
-		} else {
-			// image URL is not valid
-			viewHolder.image.setVisibility(View.GONE);
-			//viewHolder.progressBar.setVisibility(View.GONE);
-		}*/
+		viewHolder.image.setImageUrl(list.get(position).getImageURLRef(), imageLoader);
 
 		return convertView;
 	}
 
-	/**
-	 * This method will check the if the requested image in cache if not it will
-	 * make the call
-	 * 
-	 * @param mcontext
-	 * @param imgModel
-	 */
-/*	private void imageLoadingAndCaching(Context mcontext, ImageModel imgModel) {
-
-		final String imageKey = (String) imgModel.getImageView().getTag();
-		final Bitmap bitmap = mCachingObj.getBitmapFromMemCache(imageKey);
-		// before making the call first check in the cache
-		if (bitmap != null) {
-			imgModel.getImageView().setVisibility(View.VISIBLE);
-			imgModel.getImageView().setImageBitmap(bitmap);
-		} else {
-			new ImageDownloaderAsyncTask(mcontext, mCachingObj).execute(imgModel);
-		}
+	@Override
+	public int getCount() {
+		return list.size();
 	}
-*/
+
 	class ViewHolder {
 		protected TextView title;
 		protected TextView description;

@@ -10,6 +10,10 @@ package com.example.app;
 	import com.android.volley.toolbox.ImageLoader;
 	import com.android.volley.toolbox.Volley;
 	 
+	/**
+	 * @author Bhupal_Kinkiri
+	 * AppController class is singleton class which will holds the requestQueue and mImageLoader
+	 */
 	public class AppController extends Application {
 	 
 	    public static final String TAG = AppController.class.getSimpleName();

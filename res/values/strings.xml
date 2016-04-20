@@ -5,4 +5,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 <string name="refreshlist">Refresh List</string>
+<string name="loading">Loading...</string>
+<string name="noresponse">Unable to fetch the response</string>
 </resources>
